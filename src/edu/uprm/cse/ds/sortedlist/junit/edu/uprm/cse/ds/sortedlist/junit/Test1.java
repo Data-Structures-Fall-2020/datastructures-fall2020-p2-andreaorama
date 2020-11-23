@@ -1,11 +1,10 @@
 package edu.uprm.cse.ds.sortedlist.junit;
 
-import static org.junit.Assert.*;
-
+import edu.uprm.cse.ds.sortedlist.SortedCircularDoublyLinkedList;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.uprm.cse.ds.sortedlist.SortedCircularDoublyLinkedList;
+import static org.junit.Assert.assertTrue;
 
 
 public class Test1 {
