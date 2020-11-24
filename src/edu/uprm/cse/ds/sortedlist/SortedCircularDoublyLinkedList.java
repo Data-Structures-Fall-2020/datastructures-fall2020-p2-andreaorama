@@ -58,6 +58,23 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
         public SCDLLIterator(){
             this.next = header.getNext();
         }
+
+        public SCDLLIterator(int index){
+            if (index < 0 || index >= size()){
+                throw new IndexOutOfBoundsException();
+            }
+            else {
+                int counter = 0;
+                Node temp;
+                for (temp = header.getNext(); temp != header; temp = temp.getNext(), counter++){
+                    if (counter == index){
+                        break;
+                    }
+                }
+                this.next = temp;
+            }
+        }
+
         @Override
         public boolean hasNext() {
             return this.next.getElement() != null;
@@ -76,7 +93,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
         }
     }
 
-    //SortedCircularDoublyLinkedListReveredIterator Class
+    //SortedCircularDoublyLinkedListReversedIterator Class
     public class SCDLLReverseIterator implements ReverseIterator<E>{
 
         private Node<E> prev;
@@ -84,6 +101,24 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
         public SCDLLReverseIterator(){
             this.prev = header.getPrev();
         }
+
+        private SCDLLReverseIterator(int index){
+            if (index < 0 || index >= size()){
+                throw new IndexOutOfBoundsException();
+            }
+            else {
+
+                int counter = size() - 1;
+                Node temp;
+                for (temp = header.getPrev(); temp != header; temp = temp.getPrev(), counter--){
+                    if (counter == index){
+                        break;
+                    }
+                }
+                this.prev = temp;
+            }
+        }
+
         @Override
         public boolean hasPrevious() {
             return this.prev.getElement() != null;
@@ -262,22 +297,12 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 
     @Override
     public boolean isEmpty() {
-        return this.currentSize == 0;
+        return this.size() == 0;
     }
 
     @Override
     public Iterator<E> iterator(int index) {
-        Iterator<E> result = new SCDLLIterator();
-        if(index > currentSize - 1){
-            throw new IndexOutOfBoundsException("Index out of bounds.");
-        }
-        else{
-            while(index != 0){
-                result.next();
-                index--;
-            }
-        }
-        return result;
+        return new SCDLLIterator(index);
     }
 
     @Override
@@ -299,9 +324,6 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
     @Override
     public int lastIndex(E e) {
         int index = this.currentSize;
-        //Paso 1 - Verificar si la lista contiene el objeto
-        //Paso 2- Si lo tiene iterar en reverso por la lista hasta encontrarlo
-        //        disminuyendo un count
         if(this.contains(e)){
             ReverseIterator<E> revIterator = new SCDLLReverseIterator();
             while(revIterator.hasPrevious()){
@@ -322,18 +344,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 
     @Override
     public ReverseIterator<E> reverseIterator(int index) {
-        ReverseIterator<E> result = new SCDLLReverseIterator();
-        if(index > currentSize - 1){
-            throw new IndexOutOfBoundsException("Index out of bounds.");
-        }
-        else{
-            int lastIndex = this.currentSize - 1;
-            while(index != lastIndex){
-                result.previous();
-                index++;
-            }
-        }
-        return result;
+        return new SCDLLReverseIterator(index);
     }
 
     @Override
