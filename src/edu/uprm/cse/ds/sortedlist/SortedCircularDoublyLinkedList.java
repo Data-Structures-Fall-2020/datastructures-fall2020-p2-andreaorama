@@ -168,7 +168,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
             boolean added = false;
             Node<E> temp = this.header;
             E before;
-            Iterator<E> iterator = new SCDLLIterator();
+            Iterator<E> iterator = this.iterator();
             while(iterator.hasNext()){
                 before = iterator.next();
                 temp = temp.getNext();
@@ -210,7 +210,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
         }
         else{
             Node<E> temp = this.header;
-            Iterator<E> iterator = new SCDLLIterator();
+            Iterator<E> iterator = this.iterator();
             while(iterator.hasNext()){
                 temp = temp.getNext();
                 if(index == 0){
@@ -260,7 +260,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
         else{
             E temp;
             E result;
-            Iterator<E> iterator = new SCDLLIterator();
+            Iterator<E> iterator = this.iterator();
             while(iterator.hasNext()){
                 temp = iterator.next();
                 if(index == 0){
@@ -285,14 +285,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
 
     @Override
     public boolean contains(E e) {
-        Iterator<E> iterator = new SCDLLIterator();
-        while(iterator.hasNext()){
-            E temp = iterator.next();
-            if(temp.equals(e)){
-                return true;
-            }
-        }
-        return false;
+        return firstIndex(e) >= 0;
     }
 
     @Override
@@ -308,8 +301,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
     @Override
     public int firstIndex(E e) {
         int index = 0;
-        if(this.contains(e)){
-            Iterator<E> iterator = new SCDLLIterator();
+            Iterator<E> iterator = this.iterator();
             while(iterator.hasNext()){
                 E next = iterator.next();
                 if(next.equals(e)){
@@ -317,7 +309,6 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
                 }
                 index++;
             }
-        }
         return -1;
     }
 
@@ -325,7 +316,7 @@ public class SortedCircularDoublyLinkedList<E extends Comparable<E>> implements 
     public int lastIndex(E e) {
         int index = this.currentSize;
         if(this.contains(e)){
-            ReverseIterator<E> revIterator = new SCDLLReverseIterator();
+            ReverseIterator<E> revIterator = this.reverseIterator();
             while(revIterator.hasPrevious()){
                 index--;
                 E prev = revIterator.previous();
